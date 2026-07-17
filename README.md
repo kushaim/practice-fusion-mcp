@@ -18,7 +18,7 @@ Read-only by design. Audit-logged. No write access, no scheduling, no patient cr
 ## Setup
 
 1. Register a free Practice Fusion **Open FHIR** developer account and create a **System / backend-services** app. Note your FHIR base URL, token URL, client id, and register your app's public key.
-2. Copy `.env.example` to `.env` and fill in the values (see variables below).
+2. Provide the environment variables below. In production, use your MCP client's `env` block (shown in step 3). For local development, copy `.env.example` to `.env` — `pnpm dev` loads it automatically.
 3. Add to your MCP client config, e.g. Claude Desktop:
 
 ```json
