@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { generateKeyPair, exportPKCS8 } from "jose";
+import { generateKeyPair, exportPKCS8, decodeJwt } from "jose";
 import { TokenProvider } from "./backend-auth.js";
 
 async function makeKey() {
@@ -37,6 +37,13 @@ describe("TokenProvider", () => {
       "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
     );
     expect((body.get("client_assertion") ?? "").split(".")).toHaveLength(3);
+
+    const claims = decodeJwt(body.get("client_assertion")!);
+    expect(claims.iss).toBe("client-123");
+    expect(claims.sub).toBe("client-123");
+    expect(claims.aud).toBe("https://auth.example.com/token");
+    expect(typeof claims.jti).toBe("string");
+    expect(typeof claims.exp).toBe("number");
   });
 
   it("caches the token and does not re-fetch before expiry", async () => {
