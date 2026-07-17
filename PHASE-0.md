@@ -29,8 +29,13 @@ node -e "import('jose').then(async j => {
 ## 3. Create the app in the PDS portal
 Complete the **Partner Application** form:
 - **Application type: `System / Bulk export`** (backend service) — *the load-bearing choice.*
-- **JWKS URL** → where you host `pf-jwks.json` (a static file on Vercel/GitHub Pages/GitLab Pages), or paste the key if allowed.
+- **JWKS URL** → already hosted (see below), or paste the key if the portal allows.
 - **Requested scopes:** `system/*.read` (read-only).
+
+**JWKS hosting — DONE (2026-07-17):** pushed to GitLab repo `CDVolvik/pf-mcp-jwks` with a `pages` CI job. Files: `public/pf-jwks.json` + `public/.well-known/jwks.json`.
+- ⚠️ **One manual step left:** the repo was created **private** (push-to-create default). Make it **Public** so PF can fetch it: GitLab → project → *Settings → General → Visibility → Public → Save*. Then confirm the `pages` pipeline succeeded (*Build → Pipelines*).
+- **JWKS URL to give PF:** `https://cdvolvik.gitlab.io/pf-mcp-jwks/pf-jwks.json` (or `.../.well-known/jwks.json`).
+- Local clone: `D:/_pfjwks`. To rotate the key, replace both files there, commit, push.
 
 ## 4. Capture the 4 values → the server's config
 From the portal, drop these into a local `.env` (copy `.env.example`):
