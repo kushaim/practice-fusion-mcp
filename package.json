@@ -1,0 +1,29 @@
+{
+  "name": "practice-fusion-mcp",
+  "version": "0.1.0",
+  "description": "FHIR-first, read-only MCP server for Practice Fusion",
+  "license": "MIT",
+  "type": "module",
+  "bin": { "practice-fusion-mcp": "dist/index.js" },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "node --loader tsx src/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "jose": "^5.9.6",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsup": "^8.3.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "engines": { "node": ">=20" }
+}
