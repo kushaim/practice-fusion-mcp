@@ -57,4 +57,34 @@ describe("FhirClient", () => {
     const client = new FhirClient("https://fhir.example.com/r4", tokenProvider);
     await expect(client.read("Patient", "p1")).rejects.toThrow(/FHIR request failed: 403/);
   });
+
+  it("search() follows Bundle 'next' links across pages", async () => {
+    fetchMock
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            resourceType: "Bundle",
+            type: "searchset",
+            entry: [{ resource: { resourceType: "Patient", id: "p1" } }],
+            link: [{ relation: "next", url: "https://fhir.example.com/r4/Patient?page=2" }],
+          }),
+          { status: 200 },
+        ),
+      )
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            resourceType: "Bundle",
+            type: "searchset",
+            entry: [{ resource: { resourceType: "Patient", id: "p2" } }],
+          }),
+          { status: 200 },
+        ),
+      );
+    const client = new FhirClient("https://fhir.example.com/r4", tokenProvider);
+    const result = await client.search("Patient", { name: "smith" });
+    expect(result.map((r) => r.id)).toEqual(["p1", "p2"]);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(fetchMock.mock.calls[1][0]).toBe("https://fhir.example.com/r4/Patient?page=2");
+  });
 });

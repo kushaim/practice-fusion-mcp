@@ -7,6 +7,7 @@ export interface FhirResource {
 interface Bundle {
   resourceType: "Bundle";
   entry?: { resource?: FhirResource }[];
+  link?: { relation: string; url: string }[];
 }
 
 interface TokenSource {
@@ -21,11 +22,17 @@ export class FhirClient {
 
   async search(resourceType: string, params: Record<string, string>): Promise<FhirResource[]> {
     const qs = new URLSearchParams(params).toString();
-    const url = `${this.baseUrl}/${resourceType}${qs ? `?${qs}` : ""}`;
-    const bundle = (await this.get(url)) as Bundle;
-    return (bundle.entry ?? [])
-      .map((e) => e.resource)
-      .filter((r): r is FhirResource => Boolean(r));
+    let url: string | undefined = `${this.baseUrl}/${resourceType}${qs ? `?${qs}` : ""}`;
+    const resources: FhirResource[] = [];
+    const MAX_PAGES = 50;
+    for (let page = 0; url && page < MAX_PAGES; page++) {
+      const bundle = (await this.get(url)) as Bundle;
+      for (const e of bundle.entry ?? []) {
+        if (e.resource) resources.push(e.resource);
+      }
+      url = bundle.link?.find((l) => l.relation === "next")?.url;
+    }
+    return resources;
   }
 
   async read(resourceType: string, id: string): Promise<FhirResource> {
