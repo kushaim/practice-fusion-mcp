@@ -77,4 +77,16 @@ describe("shapers", () => {
       }),
     ).toEqual({ id: "o1", test: "Glucose", value: "95 mg/dL", date: "2026-07-01" });
   });
+
+  it("shapeObservation handles a quantity with no unit", () => {
+    expect(
+      shapeObservation({
+        resourceType: "Observation",
+        id: "o2",
+        code: { text: "WBC" },
+        effectiveDateTime: "2026-07-02",
+        valueQuantity: { value: 5.2 },
+      }),
+    ).toEqual({ id: "o2", test: "WBC", value: "5.2", date: "2026-07-02" });
+  });
 });

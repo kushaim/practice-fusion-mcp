@@ -54,7 +54,7 @@ export function shapeObservation(r: FhirResource) {
   return {
     id: r.id,
     test: o.code?.text,
-    value: q ? `${q.value} ${q.unit}`.trim() : o.valueString,
+    value: q ? (q.unit ? `${q.value} ${q.unit}` : String(q.value)) : o.valueString,
     date: o.effectiveDateTime,
   };
 }
