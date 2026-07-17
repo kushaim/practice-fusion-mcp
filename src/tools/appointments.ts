@@ -2,6 +2,7 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { ToolDeps } from "./patients.js";
 import { shapeAppointment } from "../fhir/shapers.js";
+import { textResult, errorResult } from "./result.js";
 
 export function registerAppointmentTools(server: McpServer, { client, audit }: ToolDeps): void {
   server.registerTool(
@@ -23,11 +24,11 @@ export function registerAppointmentTools(server: McpServer, { client, audit }: T
       try {
         const results = await client.search("Appointment", params);
         audit.record({ tool: "get_appointments", params, outcome: "ok" });
-        return { content: [{ type: "text" as const, text: JSON.stringify(results.map(shapeAppointment), null, 2) }] };
+        return textResult(results.map(shapeAppointment));
       } catch (e) {
         const msg = e instanceof Error ? e.message : String(e);
         audit.record({ tool: "get_appointments", params, outcome: "error", error: msg });
-        return { content: [{ type: "text" as const, text: msg }], isError: true };
+        return errorResult(msg);
       }
     },
   );

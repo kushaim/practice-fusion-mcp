@@ -3,17 +3,11 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { FhirClient } from "../fhir/client.js";
 import type { AuditLogger } from "../audit/logger.js";
 import { shapePatient } from "../fhir/shapers.js";
+import { textResult, errorResult } from "./result.js";
 
 export interface ToolDeps {
   client: FhirClient;
   audit: AuditLogger;
-}
-
-function textResult(data: unknown) {
-  return { content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }] };
-}
-function errorResult(message: string) {
-  return { content: [{ type: "text" as const, text: message }], isError: true };
 }
 
 export function registerPatientTools(server: McpServer, { client, audit }: ToolDeps): void {

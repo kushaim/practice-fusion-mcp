@@ -2,13 +2,7 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { ToolDeps } from "./patients.js";
 import { shapeCondition, shapeMedication, shapeObservation } from "../fhir/shapers.js";
-
-function textResult(data: unknown) {
-  return { content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }] };
-}
-function errorResult(message: string) {
-  return { content: [{ type: "text" as const, text: message }], isError: true };
-}
+import { textResult, errorResult } from "./result.js";
 
 export function registerClinicalTools(server: McpServer, { client, audit }: ToolDeps): void {
   const patientId = z.string().describe("FHIR Patient resource id");
