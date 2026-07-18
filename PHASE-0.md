@@ -32,10 +32,10 @@ Complete the **Partner Application** form:
 - **JWKS URL** → already hosted (see below), or paste the key if the portal allows.
 - **Requested scopes:** `system/*.read` (read-only).
 
-**JWKS hosting — DONE (2026-07-17):** pushed to GitLab repo `CDVolvik/pf-mcp-jwks` with a `pages` CI job. Files: `public/pf-jwks.json` + `public/.well-known/jwks.json`.
-- ⚠️ **One manual step left:** the repo was created **private** (push-to-create default). Make it **Public** so PF can fetch it: GitLab → project → *Settings → General → Visibility → Public → Save*. Then confirm the `pages` pipeline succeeded (*Build → Pipelines*).
-- **JWKS URL to give PF:** `https://cdvolvik.gitlab.io/pf-mcp-jwks/pf-jwks.json` (or `.../.well-known/jwks.json`).
-- Local clone: `D:/_pfjwks`. To rotate the key, replace both files there, commit, push.
+**JWKS hosting — DONE + VERIFIED (2026-07-17):** hosted on **Vercel** (team `r21digital`, project `pf-mcp-jwks`), serving public `200 application/json`, kid `pf-mcp-1`, verified to match the local private key.
+- **JWKS URL to give PF:** `https://pf-mcp-jwks.vercel.app/pf-jwks.json` (also `/.well-known/jwks.json`).
+- Local source: `D:/pf-mcp-jwks` (static files at root). To rotate the key: replace `pf-jwks.json` + `.well-known/jwks.json`, then `vercel deploy --prod --yes` from that dir.
+- ~~GitLab Pages attempt (`CDVolvik/pf-mcp-jwks`) abandoned~~ — persistent 403 from Pages access control; moved to Vercel for reliability. Old GitLab repo can be deleted.
 
 ## 4. Capture the 4 values → the server's config
 From the portal, drop these into a local `.env` (copy `.env.example`):
