@@ -1,8 +1,39 @@
 # practice-fusion-mcp
 
+![License: MIT](https://img.shields.io/badge/license-MIT-green)
+![Node](https://img.shields.io/badge/node-%3E%3D22-brightgreen?logo=nodedotjs&logoColor=white)
+![MCP](https://img.shields.io/badge/MCP-server-0a0a14)
+![FHIR R4](https://img.shields.io/badge/FHIR-R4-orange)
+![Access](https://img.shields.io/badge/access-read--only-blue)
+![Tests: vitest](https://img.shields.io/badge/tests-vitest-6E9F18?logo=vitest&logoColor=white)
+
 An open-source, **FHIR-first, read-only** [Model Context Protocol](https://modelcontextprotocol.io) server for **Practice Fusion**. Connect Claude (Desktop / Code), Cursor, or any MCP client to a Practice Fusion EHR to search patients and review appointments, conditions, medications, and labs — running on Practice Fusion's **free Open FHIR account**.
 
 Read-only by design. Audit-logged. No write access, no scheduling, no patient creation.
+
+## Architecture
+
+```mermaid
+flowchart LR
+    C["MCP client<br/>Claude Desktop / Code · Cursor"] -- stdio --> S
+
+    subgraph S["practice-fusion-mcp"]
+      direction TB
+      T["MCP tools<br/>search_patients · get_patient<br/>appointments · conditions<br/>medications · lab_results"]
+      A["Audit logger<br/>stderr + optional file<br/>PHI-redacted"]
+      F["FHIR client<br/>Bundle unwrap · shapers<br/>sanitized errors"]
+      TP["SMART backend-services<br/>TokenProvider<br/>signed JWT assertion · token cache"]
+      T -. audited .-> A
+      T --> F
+      F --> TP
+    end
+
+    TP -- "OAuth2 client-credentials" --> AUTH["PF token endpoint"]
+    F -- "read-only FHIR R4" --> PF["Practice Fusion<br/>Open FHIR API"]
+    AUTH -- access token --> F
+```
+
+Every tool call flows through the audit logger; the FHIR client only ever holds a short-lived token minted from a signed JWT assertion (SMART backend-services), and long free-text parameters are redacted before anything is logged.
 
 ## Tools
 

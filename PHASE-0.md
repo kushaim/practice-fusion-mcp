@@ -63,7 +63,7 @@ npx @modelcontextprotocol/inspector node dist/index.js
 - Record which search params PF actually honored in `docs/superpowers/specs/2026-07-17-practice-fusion-mcp-design.md` (Phase 0 verification section); adjust tool `inputSchema`s if PF rejected a param.
 
 ## 7. Publish
-GitHub account is limited → publish to **GitLab** (or wait on the appeal). Then list on the MCP registries.
+Published to GitHub: **[kushaim/practice-fusion-mcp](https://github.com/kushaim/practice-fusion-mcp)** (MIT). Next: list on the MCP registries (`awesome-mcp-servers`, the MCP registry) and — once live-smoked — publish to npm as `practice-fusion-mcp`.
 
 ---
 
