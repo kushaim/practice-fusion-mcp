@@ -1,6 +1,6 @@
 {
   "name": "practice-fusion-mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "FHIR-first, read-only MCP server for Practice Fusion",
   "license": "MIT",
   "type": "module",
