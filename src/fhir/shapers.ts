@@ -2,13 +2,13 @@ import type { FhirResource } from "./client.js";
 
 type Any = Record<string, any>;
 
-export interface ShapedPatient {
+export type ShapedPatient = {
   id?: string;
   name: string;
   birthDate?: string;
   gender?: string;
   phone?: string;
-}
+};
 
 export function shapePatient(r: FhirResource): ShapedPatient {
   const n = (r as Any).name?.[0];

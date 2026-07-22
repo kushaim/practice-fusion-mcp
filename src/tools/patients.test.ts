@@ -17,34 +17,48 @@ function harness() {
 }
 
 describe("patient tools", () => {
-  it("search_patients returns shaped patients as JSON text", async () => {
+  it("search_patients returns shaped patients in structuredContent", async () => {
     const { handlers, client } = harness();
     (client.search as any).mockResolvedValue([
       { resourceType: "Patient", id: "p1", name: [{ given: ["Ana"], family: "Rivera" }] },
     ]);
-    const res = await handlers.get("search_patients")!({ name: "rivera" });
-    expect(client.search).toHaveBeenCalledWith("Patient", { name: "rivera" });
-    expect(JSON.parse(res.content[0].text)[0].name).toBe("Ana Rivera");
+    const res = await handlers.get("practicefusion_search_patients")!({ name: "rivera" });
+    expect(client.search).toHaveBeenCalledWith("Patient", { name: "rivera" }, { limit: 50 });
+    expect(res.structuredContent.results[0].name).toBe("Ana Rivera");
+    expect(res.structuredContent.count).toBe(1);
+    expect(res.structuredContent.has_more).toBe(false);
+  });
+
+  it("search_patients honors the limit param and reports has_more", async () => {
+    const { handlers, client } = harness();
+    (client.search as any).mockResolvedValue([
+      { resourceType: "Patient", id: "p1", name: [{ family: "A" }] },
+      { resourceType: "Patient", id: "p2", name: [{ family: "B" }] },
+    ]);
+    const res = await handlers.get("practicefusion_search_patients")!({ name: "x", limit: 1 });
+    expect(client.search).toHaveBeenCalledWith("Patient", { name: "x" }, { limit: 1 });
+    expect(res.structuredContent.count).toBe(1);
+    expect(res.structuredContent.has_more).toBe(true);
   });
 
   it("get_patient reads by id and audits", async () => {
     const { handlers, client, audit } = harness();
     (client.read as any).mockResolvedValue({ resourceType: "Patient", id: "p1", name: [{ family: "Rivera" }] });
-    const res = await handlers.get("get_patient")!({ patientId: "p1" });
+    const res = await handlers.get("practicefusion_get_patient")!({ patientId: "p1" });
     expect(client.read).toHaveBeenCalledWith("Patient", "p1");
-    expect(JSON.parse(res.content[0].text).id).toBe("p1");
+    expect(res.structuredContent.id).toBe("p1");
     expect(audit.record).toHaveBeenCalledWith(
-      expect.objectContaining({ tool: "get_patient", outcome: "ok" }),
+      expect.objectContaining({ tool: "practicefusion_get_patient", outcome: "ok" }),
     );
   });
 
   it("returns isError and audits on client failure", async () => {
     const { handlers, client, audit } = harness();
     (client.read as any).mockRejectedValue(new Error("FHIR request failed: 404"));
-    const res = await handlers.get("get_patient")!({ patientId: "nope" });
+    const res = await handlers.get("practicefusion_get_patient")!({ patientId: "nope" });
     expect(res.isError).toBe(true);
     expect(audit.record).toHaveBeenCalledWith(
-      expect.objectContaining({ tool: "get_patient", outcome: "error" }),
+      expect.objectContaining({ tool: "practicefusion_get_patient", outcome: "error" }),
     );
   });
 });

@@ -25,10 +25,16 @@ describe("get_appointments", () => {
         participant: [{ actor: { reference: "Patient/p1", display: "Ana Rivera" } }],
       },
     ]);
-    const res = await handlers.get("get_appointments")!({ patientId: "p1", date: "ge2026-07-01" });
-    expect(client.search).toHaveBeenCalledWith("Appointment", { patient: "p1", date: "ge2026-07-01" });
-    const parsed = JSON.parse(res.content[0].text);
-    expect(parsed[0].status).toBe("booked");
-    expect(parsed[0].patient).toBe("Ana Rivera");
+    const res = await handlers.get("practicefusion_get_appointments")!({
+      patientId: "p1",
+      date: "ge2026-07-01",
+    });
+    expect(client.search).toHaveBeenCalledWith(
+      "Appointment",
+      { patient: "p1", date: "ge2026-07-01" },
+      { limit: 50 },
+    );
+    expect(res.structuredContent.results[0].status).toBe("booked");
+    expect(res.structuredContent.results[0].patient).toBe("Ana Rivera");
   });
 });

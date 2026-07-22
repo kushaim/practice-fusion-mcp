@@ -37,14 +37,16 @@ Every tool call flows through the audit logger; the FHIR client only ever holds 
 
 ## Tools
 
+All tools are namespaced with a `practicefusion_` prefix (so they don't collide when loaded alongside other MCP servers), carry a `readOnlyHint` annotation, and return a typed `outputSchema` / `structuredContent`. List tools accept an optional `limit` (default 50, max 200) and report `count` and `has_more`.
+
 | Tool | What it does |
 |------|--------------|
-| `search_patients` | Find patients by name / birthdate / gender / identifier |
-| `get_patient` | One patient's demographics by id |
-| `get_appointments` | Appointments by patient / status / date |
-| `get_conditions` | A patient's problems / diagnoses |
-| `get_medications` | A patient's medication requests |
-| `get_lab_results` | A patient's laboratory observations |
+| `practicefusion_search_patients` | Find patients by name / birthdate / gender / identifier |
+| `practicefusion_get_patient` | One patient's demographics by id |
+| `practicefusion_get_appointments` | Appointments by patient / status / date |
+| `practicefusion_get_conditions` | A patient's problems / diagnoses |
+| `practicefusion_get_medications` | A patient's medication requests |
+| `practicefusion_get_lab_results` | A patient's laboratory observations |
 
 ## Setup
 

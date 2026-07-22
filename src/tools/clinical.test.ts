@@ -19,9 +19,9 @@ describe("clinical tools", () => {
     (client.search as any).mockResolvedValue([
       { resourceType: "Condition", id: "c1", code: { text: "Hypertension" } },
     ]);
-    const res = await handlers.get("get_conditions")!({ patientId: "p1" });
-    expect(client.search).toHaveBeenCalledWith("Condition", { patient: "p1" });
-    expect(JSON.parse(res.content[0].text)[0].condition).toBe("Hypertension");
+    const res = await handlers.get("practicefusion_get_conditions")!({ patientId: "p1" });
+    expect(client.search).toHaveBeenCalledWith("Condition", { patient: "p1" }, { limit: 50 });
+    expect(res.structuredContent.results[0].condition).toBe("Hypertension");
   });
 
   it("get_medications searches MedicationRequest by patient", async () => {
@@ -29,9 +29,9 @@ describe("clinical tools", () => {
     (client.search as any).mockResolvedValue([
       { resourceType: "MedicationRequest", id: "m1", medicationCodeableConcept: { text: "Lisinopril" } },
     ]);
-    const res = await handlers.get("get_medications")!({ patientId: "p1" });
-    expect(client.search).toHaveBeenCalledWith("MedicationRequest", { patient: "p1" });
-    expect(JSON.parse(res.content[0].text)[0].medication).toBe("Lisinopril");
+    const res = await handlers.get("practicefusion_get_medications")!({ patientId: "p1" });
+    expect(client.search).toHaveBeenCalledWith("MedicationRequest", { patient: "p1" }, { limit: 50 });
+    expect(res.structuredContent.results[0].medication).toBe("Lisinopril");
   });
 
   it("get_lab_results searches Observation with laboratory category", async () => {
@@ -39,8 +39,12 @@ describe("clinical tools", () => {
     (client.search as any).mockResolvedValue([
       { resourceType: "Observation", id: "o1", code: { text: "Glucose" }, valueQuantity: { value: 95, unit: "mg/dL" } },
     ]);
-    const res = await handlers.get("get_lab_results")!({ patientId: "p1" });
-    expect(client.search).toHaveBeenCalledWith("Observation", { patient: "p1", category: "laboratory" });
-    expect(JSON.parse(res.content[0].text)[0].value).toBe("95 mg/dL");
+    const res = await handlers.get("practicefusion_get_lab_results")!({ patientId: "p1" });
+    expect(client.search).toHaveBeenCalledWith(
+      "Observation",
+      { patient: "p1", category: "laboratory" },
+      { limit: 50 },
+    );
+    expect(res.structuredContent.results[0].value).toBe("95 mg/dL");
   });
 });

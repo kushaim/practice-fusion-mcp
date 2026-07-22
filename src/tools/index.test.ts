@@ -11,12 +11,12 @@ describe("registerAllTools", () => {
     registerAllTools(server as any, { client, audit: new AuditLogger() });
     expect(names.sort()).toEqual(
       [
-        "get_appointments",
-        "get_conditions",
-        "get_lab_results",
-        "get_medications",
-        "get_patient",
-        "search_patients",
+        "practicefusion_get_appointments",
+        "practicefusion_get_conditions",
+        "practicefusion_get_lab_results",
+        "practicefusion_get_medications",
+        "practicefusion_get_patient",
+        "practicefusion_search_patients",
       ].sort(),
     );
   });

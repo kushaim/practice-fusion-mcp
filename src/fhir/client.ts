@@ -20,7 +20,11 @@ export class FhirClient {
     private readonly tokens: TokenSource,
   ) {}
 
-  async search(resourceType: string, params: Record<string, string>): Promise<FhirResource[]> {
+  async search(
+    resourceType: string,
+    params: Record<string, string>,
+    opts: { limit?: number } = {},
+  ): Promise<FhirResource[]> {
     const qs = new URLSearchParams(params).toString();
     let url: string | undefined = `${this.baseUrl}/${resourceType}${qs ? `?${qs}` : ""}`;
     const resources: FhirResource[] = [];
@@ -30,6 +34,9 @@ export class FhirClient {
       for (const e of bundle.entry ?? []) {
         if (e.resource) resources.push(e.resource);
       }
+      // Stop paging once we have one more than the caller asked for, so a broad
+      // query can't pull the whole dataset into memory.
+      if (opts.limit !== undefined && resources.length > opts.limit) break;
       url = bundle.link?.find((l) => l.relation === "next")?.url;
     }
     return resources;
