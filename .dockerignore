@@ -1,0 +1,8 @@
+# Keep secrets and build artifacts out of the image (mirrors .gitignore).
+.git
+node_modules
+dist
+.env
+*.pem
+pf-jwks.json
+*.log
