@@ -81,6 +81,7 @@ All tools are namespaced with a `practicefusion_` prefix (so they don't collide 
 | `practicefusion_get_appointments` | Appointments by patient / status / date         |
 | `practicefusion_get_encounters`   | A patient's clinical encounters (visits)        |
 | `practicefusion_get_documents`    | A patient's document references (note metadata) |
+| `practicefusion_get_coverage`     | A patient's insurance Coverage (status, payer, period) |
 
 ## Example
 

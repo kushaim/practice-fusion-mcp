@@ -112,3 +112,21 @@ export function shapeDocumentReference(r: FhirResource) {
     description: d.description,
   };
 }
+
+export function shapeCoverage(r: FhirResource) {
+  const c = r as Any;
+  // FHIR Coverage.type is a CodeableConcept with a coding array; we surface
+  // the .text (free-form display) if present, else the first coding's display.
+  const typeCoding = c.type?.coding?.[0];
+  const type = c.type?.text ?? typeCoding?.display ?? typeCoding?.code;
+  return {
+    id: r.id,
+    status: c.status,
+    type,
+    payer: c.payer?.[0]?.display ?? c.payer?.display,
+    subscriberId: c.subscriberId,
+    periodStart: c.period?.start,
+    periodEnd: c.period?.end,
+    relationship: c.relationship?.coding?.[0]?.display ?? c.relationship?.coding?.[0]?.code,
+  };
+}
