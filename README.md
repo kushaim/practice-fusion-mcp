@@ -130,15 +130,18 @@ Because every tool returns `structuredContent`, the client gets typed objects �
 
 ### Environment variables
 
-| Var                | Required | Default         | Notes                                                                |
-| ------------------ | -------- | --------------- | -------------------------------------------------------------------- |
-| `PF_FHIR_BASE_URL` | yes      | —               | FHIR R4 base URL                                                     |
-| `PF_TOKEN_URL`     | yes      | —               | OAuth2 token endpoint                                                |
-| `PF_CLIENT_ID`     | yes      | —               | Backend-services client id                                           |
-| `PF_PRIVATE_KEY`   | yes      | —               | PKCS8 PEM private key (matches the registered public key)            |
-| `PF_SCOPES`        | no       | `system/*.read` | Requested scopes                                                     |
-| `PF_TOKEN_ALG`     | no       | `RS384`         | JWT signing alg                                                      |
-| `PF_AUDIT_LOG`     | no       | —               | Optional file path for audit records (always also written to stderr) |
+| Var                     | Required | Default         | Notes                                                                                       |
+| ----------------------- | -------- | --------------- | ------------------------------------------------------------------------------------------- |
+| `PF_FHIR_BASE_URL`      | yes      | —               | FHIR R4 base URL                                                                            |
+| `PF_TOKEN_URL`          | yes      | —               | OAuth2 token endpoint                                                                       |
+| `PF_CLIENT_ID`          | yes      | —               | Backend-services client id                                                                  |
+| `PF_PRIVATE_KEY`        | yes      | —               | PKCS8 PEM private key (matches the registered public key)                                   |
+| `PF_SCOPES`             | no       | `system/*.read` | Requested scopes                                                                            |
+| `PF_TOKEN_ALG`          | no       | `RS384`         | JWT signing alg                                                                             |
+| `PF_AUDIT_LOG`          | no       | —               | Optional file path for audit records (always also written to stderr)                        |
+| `PF_RETRY_MAX_ATTEMPTS` | no       | `4`             | Total attempts for transient FHIR responses (429/502/503/504). 1 = no retry.                  |
+| `PF_RETRY_BASE_MS`      | no       | `500`           | Initial backoff in ms. Doubles each attempt (500 → 1000 → 2000 …) up to `PF_RETRY_CAP_MS`.   |
+| `PF_RETRY_CAP_MS`       | no       | `8000`          | Maximum backoff between retries. `Retry-After` from the server is always honored.            |
 
 ## Security & HIPAA
 

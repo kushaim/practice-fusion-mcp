@@ -14,11 +14,30 @@ interface TokenSource {
   getAccessToken(): Promise<string>;
 }
 
+export interface FhirClientOptions {
+  retryMaxAttempts?: number;
+  retryBaseMs?: number;
+  retryCapMs?: number;
+  /** Override sleep — exposed for tests. */
+  sleep?: (ms: number) => Promise<void>;
+}
+
 export class FhirClient {
+  private readonly retryMaxAttempts: number;
+  private readonly retryBaseMs: number;
+  private readonly retryCapMs: number;
+  private readonly sleep: (ms: number) => Promise<void>;
+
   constructor(
     private readonly baseUrl: string,
     private readonly tokens: TokenSource,
-  ) {}
+    options: FhirClientOptions = {},
+  ) {
+    this.retryMaxAttempts = options.retryMaxAttempts ?? 4;
+    this.retryBaseMs = options.retryBaseMs ?? 500;
+    this.retryCapMs = options.retryCapMs ?? 8000;
+    this.sleep = options.sleep ?? ((ms) => new Promise((r) => setTimeout(r, ms)));
+  }
 
   async search(
     resourceType: string,
@@ -49,11 +68,28 @@ export class FhirClient {
   }
 
   private async get(url: string): Promise<unknown> {
-    const token = await this.tokens.getAccessToken();
-    const res = await fetch(url, {
-      headers: { Authorization: `Bearer ${token}`, Accept: "application/fhir+json" },
-    });
-    if (!res.ok) throw new Error(`FHIR request failed: ${res.status}`);
-    return res.json();
+    const { withRetry } = await import("./retry.js");
+    const result = await withRetry(
+      async () => {
+        const token = await this.tokens.getAccessToken();
+        const res = await fetch(url, {
+          headers: { Authorization: `Bearer ${token}`, Accept: "application/fhir+json" },
+        });
+        const body = await res.text();
+        return {
+          status: res.status,
+          body,
+          headers: res.headers,
+          value: () => JSON.parse(body) as unknown,
+        };
+      },
+      {
+        maxAttempts: this.retryMaxAttempts,
+        baseMs: this.retryBaseMs,
+        capMs: this.retryCapMs,
+        sleep: this.sleep,
+      },
+    );
+    return result.value;
   }
 }

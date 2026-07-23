@@ -16,7 +16,11 @@ async function main(): Promise<void> {
     scopes: config.scopes,
     alg: config.tokenAlg,
   });
-  const client = new FhirClient(config.fhirBaseUrl, tokens);
+  const client = new FhirClient(config.fhirBaseUrl, tokens, {
+    retryMaxAttempts: config.retryMaxAttempts,
+    retryBaseMs: config.retryBaseMs,
+    retryCapMs: config.retryCapMs,
+  });
 
   const server = new McpServer({ name: "practice-fusion-mcp", version: "0.3.0" });
   registerAllTools(server, { client, audit });
