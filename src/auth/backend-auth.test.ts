@@ -3,7 +3,7 @@ import { generateKeyPair, exportPKCS8, decodeJwt } from "jose";
 import { TokenProvider } from "./backend-auth.js";
 
 async function makeKey() {
-  const { privateKey } = await generateKeyPair("RS384");
+  const { privateKey } = await generateKeyPair("RS384", { extractable: true });
   return exportPKCS8(privateKey);
 }
 
