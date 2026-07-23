@@ -2,6 +2,7 @@
   "name": "practice-fusion-mcp",
   "version": "0.3.0",
   "description": "FHIR-first, read-only MCP server for Practice Fusion",
+  "mcpName": "io.github.kushaim/practice-fusion-mcp",
   "license": "MIT",
   "type": "module",
   "keywords": [
@@ -20,14 +21,19 @@
   "bugs": {
     "url": "https://github.com/kushaim/practice-fusion-mcp/issues"
   },
+  "main": "dist/index.js",
   "bin": {
     "practice-fusion-mcp": "dist/index.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "tsup",
+    "prepublishOnly": "pnpm build",
     "dev": "node --env-file-if-exists=.env --loader tsx src/index.ts",
     "test": "vitest run",
     "test:watch": "vitest",

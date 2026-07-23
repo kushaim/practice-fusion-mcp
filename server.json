@@ -1,0 +1,62 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
+  "name": "io.github.kushaim/practice-fusion-mcp",
+  "description": "FHIR-first, read-only MCP server for Practice Fusion",
+  "repository": {
+    "url": "https://github.com/kushaim/practice-fusion-mcp",
+    "source": "github"
+  },
+  "version": "0.3.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "practice-fusion-mcp",
+      "version": "0.3.0",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        {
+          "name": "PF_FHIR_BASE_URL",
+          "description": "FHIR R4 base URL",
+          "isRequired": true,
+          "isSecret": false
+        },
+        {
+          "name": "PF_TOKEN_URL",
+          "description": "OAuth2 token endpoint",
+          "isRequired": true,
+          "isSecret": false
+        },
+        {
+          "name": "PF_CLIENT_ID",
+          "description": "Backend-services client id",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "PF_PRIVATE_KEY",
+          "description": "PKCS8 PEM private key (matches the registered public key)",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "PF_SCOPES",
+          "description": "Requested scopes (default system/*.read)",
+          "isRequired": false,
+          "isSecret": false
+        },
+        {
+          "name": "PF_TOKEN_ALG",
+          "description": "JWT signing algorithm (default RS384)",
+          "isRequired": false,
+          "isSecret": false
+        },
+        {
+          "name": "PF_AUDIT_LOG",
+          "description": "Optional file path for audit records",
+          "isRequired": false,
+          "isSecret": false
+        }
+      ]
+    }
+  ]
+}
