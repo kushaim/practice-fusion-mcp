@@ -47,4 +47,45 @@ describe("clinical tools", () => {
     );
     expect(res.structuredContent.results[0].value).toBe("95 mg/dL");
   });
+
+  it("get_vitals searches Observation with vital-signs category", async () => {
+    const { handlers, client } = harness();
+    (client.search as any).mockResolvedValue([
+      { resourceType: "Observation", id: "v1", code: { text: "Heart rate" }, valueQuantity: { value: 72, unit: "beats/min" } },
+    ]);
+    const res = await handlers.get("practicefusion_get_vitals")!({ patientId: "p1" });
+    expect(client.search).toHaveBeenCalledWith(
+      "Observation",
+      { patient: "p1", category: "vital-signs" },
+      { limit: 50 },
+    );
+    expect(res.structuredContent.results[0].value).toBe("72 beats/min");
+  });
+
+  it("get_allergies searches AllergyIntolerance by patient", async () => {
+    const { handlers, client } = harness();
+    (client.search as any).mockResolvedValue([
+      {
+        resourceType: "AllergyIntolerance",
+        id: "al1",
+        code: { text: "Penicillin" },
+        clinicalStatus: { coding: [{ code: "active" }] },
+        criticality: "high",
+      },
+    ]);
+    const res = await handlers.get("practicefusion_get_allergies")!({ patientId: "p1" });
+    expect(client.search).toHaveBeenCalledWith("AllergyIntolerance", { patient: "p1" }, { limit: 50 });
+    expect(res.structuredContent.results[0].substance).toBe("Penicillin");
+    expect(res.structuredContent.results[0].criticality).toBe("high");
+  });
+
+  it("get_immunizations searches Immunization by patient", async () => {
+    const { handlers, client } = harness();
+    (client.search as any).mockResolvedValue([
+      { resourceType: "Immunization", id: "im1", vaccineCode: { text: "Influenza" }, status: "completed" },
+    ]);
+    const res = await handlers.get("practicefusion_get_immunizations")!({ patientId: "p1" });
+    expect(client.search).toHaveBeenCalledWith("Immunization", { patient: "p1" }, { limit: 50 });
+    expect(res.structuredContent.results[0].vaccine).toBe("Influenza");
+  });
 });

@@ -58,3 +58,57 @@ export function shapeObservation(r: FhirResource) {
     date: o.effectiveDateTime,
   };
 }
+
+export function shapeAllergy(r: FhirResource) {
+  const a = r as Any;
+  return {
+    id: r.id,
+    substance: a.code?.text,
+    status: a.clinicalStatus?.coding?.[0]?.code,
+    criticality: a.criticality,
+  };
+}
+
+export function shapeImmunization(r: FhirResource) {
+  const i = r as Any;
+  return {
+    id: r.id,
+    vaccine: i.vaccineCode?.text,
+    status: i.status,
+    date: i.occurrenceDateTime,
+  };
+}
+
+export function shapeEncounter(r: FhirResource) {
+  const e = r as Any;
+  return {
+    id: r.id,
+    status: e.status,
+    class: e.class?.display ?? e.class?.code,
+    start: e.period?.start,
+    type: e.type?.[0]?.text,
+  };
+}
+
+export function shapePractitioner(r: FhirResource) {
+  const n = (r as Any).name?.[0];
+  const name = n ? [n.given?.join(" "), n.family].filter(Boolean).join(" ") : "(unknown)";
+  const phone = (r as Any).telecom?.find((t: Any) => t.system === "phone")?.value;
+  return {
+    id: r.id,
+    name,
+    phone,
+    qualification: (r as Any).qualification?.[0]?.code?.text,
+  };
+}
+
+export function shapeDocumentReference(r: FhirResource) {
+  const d = r as Any;
+  return {
+    id: r.id,
+    type: d.type?.text,
+    date: d.date,
+    status: d.status,
+    description: d.description,
+  };
+}
