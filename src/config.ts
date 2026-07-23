@@ -8,6 +8,7 @@ const schema = z.object({
   PF_SCOPES: z.string().min(1).default("system/*.read"),
   PF_TOKEN_ALG: z.enum(["RS384", "RS256", "ES384"]).default("RS384"),
   PF_AUDIT_LOG: z.string().min(1).optional(),
+  PF_AUDIT_LOG_FORMAT: z.enum(["text", "ndjson"]).default("text"),
   PF_RETRY_MAX_ATTEMPTS: z
     .string()
     .regex(/^\d+$/)
@@ -36,6 +37,7 @@ export interface Config {
   scopes: string;
   tokenAlg: "RS384" | "RS256" | "ES384";
   auditLogPath?: string;
+  auditLogFormat: "text" | "ndjson";
   retryMaxAttempts: number;
   retryBaseMs: number;
   retryCapMs: number;
@@ -56,6 +58,7 @@ export function loadConfig(env: Record<string, string | undefined> = process.env
     scopes: e.PF_SCOPES,
     tokenAlg: e.PF_TOKEN_ALG,
     auditLogPath: e.PF_AUDIT_LOG,
+    auditLogFormat: e.PF_AUDIT_LOG_FORMAT,
     retryMaxAttempts: e.PF_RETRY_MAX_ATTEMPTS,
     retryBaseMs: e.PF_RETRY_BASE_MS,
     retryCapMs: e.PF_RETRY_CAP_MS,

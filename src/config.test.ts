@@ -14,6 +14,7 @@ describe("loadConfig", () => {
     expect(cfg.scopes).toBe("system/*.read");
     expect(cfg.tokenAlg).toBe("RS384");
     expect(cfg.auditLogPath).toBeUndefined();
+    expect(cfg.auditLogFormat).toBe("text");
     expect(cfg.retryMaxAttempts).toBe(4);
     expect(cfg.retryBaseMs).toBe(500);
     expect(cfg.retryCapMs).toBe(8000);

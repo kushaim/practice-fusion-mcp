@@ -8,7 +8,7 @@ import { registerAllTools } from "./tools/index.js";
 
 async function main(): Promise<void> {
   const config = loadConfig();
-  const audit = new AuditLogger(config.auditLogPath);
+  const audit = new AuditLogger(config.auditLogPath, config.auditLogFormat);
   const tokens = new TokenProvider({
     tokenUrl: config.tokenUrl,
     clientId: config.clientId,
