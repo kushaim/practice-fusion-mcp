@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-label="practice-fusion-mcp — FHIR-first, read-only MCP server for Practice Fusion">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1220"/>
+      <stop offset="0.55" stop-color="#0e2233"/>
+      <stop offset="1" stop-color="#0a2b2b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2dd4bf"/>
+      <stop offset="1" stop-color="#38bdf8"/>
+    </linearGradient>
+    <style>
+      .t { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="300" rx="20" fill="url(#bg)"/>
+
+  <!-- subtle FHIR/MCP node lattice -->
+  <g stroke="#1e3a4a" stroke-width="1.5" opacity="0.55">
+    <line x1="905" y1="70" x2="1010" y2="120"/>
+    <line x1="1010" y1="120" x2="960" y2="210"/>
+    <line x1="960" y1="210" x2="1070" y2="230"/>
+    <line x1="1010" y1="120" x2="1110" y2="90"/>
+    <line x1="905" y1="70" x2="960" y2="210"/>
+  </g>
+  <g fill="url(#accent)" opacity="0.9">
+    <circle cx="905" cy="70" r="6"/>
+    <circle cx="1010" cy="120" r="7"/>
+    <circle cx="960" cy="210" r="6"/>
+    <circle cx="1070" cy="230" r="5"/>
+    <circle cx="1110" cy="90" r="5"/>
+  </g>
+
+  <!-- emblem: rounded tile with a medical plus -->
+  <g transform="translate(72,96)">
+    <rect width="108" height="108" rx="24" fill="url(#accent)"/>
+    <rect x="46" y="20" width="16" height="68" rx="5" fill="#0b1220"/>
+    <rect x="20" y="46" width="68" height="16" rx="5" fill="#0b1220"/>
+  </g>
+
+  <!-- wordmark -->
+  <text x="212" y="132" class="t" font-size="58" font-weight="700" fill="#f1f5f9">practice-fusion-mcp</text>
+  <text x="214" y="176" class="t" font-size="25" font-weight="500" fill="#93c5b6">FHIR-first · read-only · audit-logged — MCP server for Practice Fusion</text>
+
+  <!-- feature pills -->
+  <g class="t" font-size="18" font-weight="600">
+    <g transform="translate(214,208)">
+      <rect width="132" height="40" rx="20" fill="#0f2a2a" stroke="#1f5148"/>
+      <text x="66" y="26" text-anchor="middle" fill="#5eead4">12 read tools</text>
+    </g>
+    <g transform="translate(360,208)">
+      <rect width="96" height="40" rx="20" fill="#0f2333" stroke="#1e4a63"/>
+      <text x="48" y="26" text-anchor="middle" fill="#7dd3fc">FHIR R4</text>
+    </g>
+    <g transform="translate(470,208)">
+      <rect width="140" height="40" rx="20" fill="#141b2e" stroke="#33415a"/>
+      <text x="70" y="26" text-anchor="middle" fill="#cbd5e1">SMART auth</text>
+    </g>
+    <g transform="translate(624,208)">
+      <rect width="70" height="40" rx="20" fill="#161d20" stroke="#3a4a3f"/>
+      <text x="35" y="26" text-anchor="middle" fill="#a7f3d0">MIT</text>
+    </g>
+  </g>
+</svg>

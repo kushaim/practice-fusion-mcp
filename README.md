@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.svg" alt="practice-fusion-mcp — FHIR-first, read-only MCP server for Practice Fusion" width="100%">
+</p>
+
 # practice-fusion-mcp
 
 [![CI](https://github.com/kushaim/practice-fusion-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/kushaim/practice-fusion-mcp/actions/workflows/ci.yml)
