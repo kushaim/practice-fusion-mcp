@@ -18,7 +18,7 @@ async function main(): Promise<void> {
   });
   const client = new FhirClient(config.fhirBaseUrl, tokens);
 
-  const server = new McpServer({ name: "practice-fusion-mcp", version: "0.2.0" });
+  const server = new McpServer({ name: "practice-fusion-mcp", version: "0.3.0" });
   registerAllTools(server, { client, audit });
 
   const transport = new StdioServerTransport();

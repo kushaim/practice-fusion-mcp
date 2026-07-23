@@ -43,7 +43,11 @@ describe("patient tools", () => {
 
   it("get_patient reads by id and audits", async () => {
     const { handlers, client, audit } = harness();
-    (client.read as any).mockResolvedValue({ resourceType: "Patient", id: "p1", name: [{ family: "Rivera" }] });
+    (client.read as any).mockResolvedValue({
+      resourceType: "Patient",
+      id: "p1",
+      name: [{ family: "Rivera" }],
+    });
     const res = await handlers.get("practicefusion_get_patient")!({ patientId: "p1" });
     expect(client.read).toHaveBeenCalledWith("Patient", "p1");
     expect(res.structuredContent.id).toBe("p1");

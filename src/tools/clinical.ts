@@ -67,7 +67,12 @@ export function registerClinicalTools(server: McpServer, { client, audit }: Tool
         return paged(r.map(shapeCondition), limit);
       } catch (e) {
         const msg = e instanceof Error ? e.message : String(e);
-        audit.record({ tool: "practicefusion_get_conditions", params, outcome: "error", error: msg });
+        audit.record({
+          tool: "practicefusion_get_conditions",
+          params,
+          outcome: "error",
+          error: msg,
+        });
         return errorResult(msg, "Verify patientId is a valid FHIR Patient id.");
       }
     },
@@ -92,7 +97,12 @@ export function registerClinicalTools(server: McpServer, { client, audit }: Tool
         return paged(r.map(shapeMedication), limit);
       } catch (e) {
         const msg = e instanceof Error ? e.message : String(e);
-        audit.record({ tool: "practicefusion_get_medications", params, outcome: "error", error: msg });
+        audit.record({
+          tool: "practicefusion_get_medications",
+          params,
+          outcome: "error",
+          error: msg,
+        });
         return errorResult(msg, "Verify patientId is a valid FHIR Patient id.");
       }
     },
@@ -117,7 +127,12 @@ export function registerClinicalTools(server: McpServer, { client, audit }: Tool
         return paged(r.map(shapeObservation), limit);
       } catch (e) {
         const msg = e instanceof Error ? e.message : String(e);
-        audit.record({ tool: "practicefusion_get_lab_results", params, outcome: "error", error: msg });
+        audit.record({
+          tool: "practicefusion_get_lab_results",
+          params,
+          outcome: "error",
+          error: msg,
+        });
         return errorResult(msg, "Verify patientId is a valid FHIR Patient id.");
       }
     },
@@ -167,7 +182,12 @@ export function registerClinicalTools(server: McpServer, { client, audit }: Tool
         return paged(r.map(shapeAllergy), limit);
       } catch (e) {
         const msg = e instanceof Error ? e.message : String(e);
-        audit.record({ tool: "practicefusion_get_allergies", params, outcome: "error", error: msg });
+        audit.record({
+          tool: "practicefusion_get_allergies",
+          params,
+          outcome: "error",
+          error: msg,
+        });
         return errorResult(msg, "Verify patientId is a valid FHIR Patient id.");
       }
     },

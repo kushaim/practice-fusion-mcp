@@ -1,17 +1,40 @@
 {
   "name": "practice-fusion-mcp",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "FHIR-first, read-only MCP server for Practice Fusion",
   "license": "MIT",
   "type": "module",
-  "bin": { "practice-fusion-mcp": "dist/index.js" },
-  "files": ["dist"],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "fhir",
+    "practice-fusion",
+    "ehr",
+    "healthcare"
+  ],
+  "homepage": "https://github.com/kushaim/practice-fusion-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kushaim/practice-fusion-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kushaim/practice-fusion-mcp/issues"
+  },
+  "bin": {
+    "practice-fusion-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "node --env-file-if-exists=.env --loader tsx src/index.ts",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.0",
@@ -19,11 +42,19 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.17.0",
     "@types/node": "^22.10.0",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.4.2",
     "tsup": "^8.3.5",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.0",
     "vitest": "^2.1.8"
   },
-  "engines": { "node": ">=22" }
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@9.15.0"
 }

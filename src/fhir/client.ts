@@ -43,7 +43,9 @@ export class FhirClient {
   }
 
   async read(resourceType: string, id: string): Promise<FhirResource> {
-    return (await this.get(`${this.baseUrl}/${resourceType}/${encodeURIComponent(id)}`)) as FhirResource;
+    return (await this.get(
+      `${this.baseUrl}/${resourceType}/${encodeURIComponent(id)}`,
+    )) as FhirResource;
   }
 
   private async get(url: string): Promise<unknown> {

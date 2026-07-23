@@ -27,17 +27,30 @@ describe("clinical tools", () => {
   it("get_medications searches MedicationRequest by patient", async () => {
     const { handlers, client } = harness();
     (client.search as any).mockResolvedValue([
-      { resourceType: "MedicationRequest", id: "m1", medicationCodeableConcept: { text: "Lisinopril" } },
+      {
+        resourceType: "MedicationRequest",
+        id: "m1",
+        medicationCodeableConcept: { text: "Lisinopril" },
+      },
     ]);
     const res = await handlers.get("practicefusion_get_medications")!({ patientId: "p1" });
-    expect(client.search).toHaveBeenCalledWith("MedicationRequest", { patient: "p1" }, { limit: 50 });
+    expect(client.search).toHaveBeenCalledWith(
+      "MedicationRequest",
+      { patient: "p1" },
+      { limit: 50 },
+    );
     expect(res.structuredContent.results[0].medication).toBe("Lisinopril");
   });
 
   it("get_lab_results searches Observation with laboratory category", async () => {
     const { handlers, client } = harness();
     (client.search as any).mockResolvedValue([
-      { resourceType: "Observation", id: "o1", code: { text: "Glucose" }, valueQuantity: { value: 95, unit: "mg/dL" } },
+      {
+        resourceType: "Observation",
+        id: "o1",
+        code: { text: "Glucose" },
+        valueQuantity: { value: 95, unit: "mg/dL" },
+      },
     ]);
     const res = await handlers.get("practicefusion_get_lab_results")!({ patientId: "p1" });
     expect(client.search).toHaveBeenCalledWith(
@@ -51,7 +64,12 @@ describe("clinical tools", () => {
   it("get_vitals searches Observation with vital-signs category", async () => {
     const { handlers, client } = harness();
     (client.search as any).mockResolvedValue([
-      { resourceType: "Observation", id: "v1", code: { text: "Heart rate" }, valueQuantity: { value: 72, unit: "beats/min" } },
+      {
+        resourceType: "Observation",
+        id: "v1",
+        code: { text: "Heart rate" },
+        valueQuantity: { value: 72, unit: "beats/min" },
+      },
     ]);
     const res = await handlers.get("practicefusion_get_vitals")!({ patientId: "p1" });
     expect(client.search).toHaveBeenCalledWith(
@@ -74,7 +92,11 @@ describe("clinical tools", () => {
       },
     ]);
     const res = await handlers.get("practicefusion_get_allergies")!({ patientId: "p1" });
-    expect(client.search).toHaveBeenCalledWith("AllergyIntolerance", { patient: "p1" }, { limit: 50 });
+    expect(client.search).toHaveBeenCalledWith(
+      "AllergyIntolerance",
+      { patient: "p1" },
+      { limit: 50 },
+    );
     expect(res.structuredContent.results[0].substance).toBe("Penicillin");
     expect(res.structuredContent.results[0].criticality).toBe("high");
   });
@@ -82,7 +104,12 @@ describe("clinical tools", () => {
   it("get_immunizations searches Immunization by patient", async () => {
     const { handlers, client } = harness();
     (client.search as any).mockResolvedValue([
-      { resourceType: "Immunization", id: "im1", vaccineCode: { text: "Influenza" }, status: "completed" },
+      {
+        resourceType: "Immunization",
+        id: "im1",
+        vaccineCode: { text: "Influenza" },
+        status: "completed",
+      },
     ]);
     const res = await handlers.get("practicefusion_get_immunizations")!({ patientId: "p1" });
     expect(client.search).toHaveBeenCalledWith("Immunization", { patient: "p1" }, { limit: 50 });

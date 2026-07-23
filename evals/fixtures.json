@@ -1,0 +1,127 @@
+{
+  "_comment": "Synthetic FHIR resources the eval questions are answerable from. No real PHI. Seed a Practice Fusion Open FHIR sandbox with equivalents to run the evals live.",
+  "Patient": [
+    {
+      "resourceType": "Patient",
+      "id": "pf-ana",
+      "name": [{ "given": ["Ana"], "family": "Rivera" }],
+      "birthDate": "1984-02-11",
+      "gender": "female"
+    },
+    {
+      "resourceType": "Patient",
+      "id": "pf-carlos",
+      "name": [{ "given": ["Carlos"], "family": "Mendez" }],
+      "birthDate": "1970-05-03",
+      "gender": "male"
+    }
+  ],
+  "Practitioner": [
+    {
+      "resourceType": "Practitioner",
+      "id": "pf-ivan",
+      "name": [{ "given": ["Iván"], "family": "Irizarry" }],
+      "qualification": [{ "code": { "text": "MD" } }]
+    }
+  ],
+  "MedicationRequest": {
+    "pf-ana": [
+      {
+        "resourceType": "MedicationRequest",
+        "id": "m-1",
+        "medicationCodeableConcept": { "text": "Lisinopril 10 mg" },
+        "status": "active"
+      },
+      {
+        "resourceType": "MedicationRequest",
+        "id": "m-2",
+        "medicationCodeableConcept": { "text": "Metformin 500 mg" },
+        "status": "active"
+      },
+      {
+        "resourceType": "MedicationRequest",
+        "id": "m-3",
+        "medicationCodeableConcept": { "text": "Atorvastatin 20 mg" },
+        "status": "stopped"
+      }
+    ],
+    "pf-carlos": [
+      {
+        "resourceType": "MedicationRequest",
+        "id": "m-4",
+        "medicationCodeableConcept": { "text": "Atorvastatin 40 mg" },
+        "status": "active"
+      }
+    ]
+  },
+  "Condition": {
+    "pf-ana": [
+      {
+        "resourceType": "Condition",
+        "id": "c-1",
+        "code": { "text": "Hypertension" },
+        "clinicalStatus": { "coding": [{ "code": "active" }] }
+      },
+      {
+        "resourceType": "Condition",
+        "id": "c-2",
+        "code": { "text": "Type 2 diabetes mellitus" },
+        "clinicalStatus": { "coding": [{ "code": "active" }] }
+      }
+    ]
+  },
+  "AllergyIntolerance": {
+    "pf-ana": [
+      {
+        "resourceType": "AllergyIntolerance",
+        "id": "a-1",
+        "code": { "text": "Penicillin" },
+        "clinicalStatus": { "coding": [{ "code": "active" }] },
+        "criticality": "high"
+      }
+    ],
+    "pf-carlos": []
+  },
+  "Observation": {
+    "pf-ana": [
+      {
+        "resourceType": "Observation",
+        "id": "o-1",
+        "category": [{ "coding": [{ "code": "laboratory" }] }],
+        "code": { "text": "HbA1c" },
+        "valueQuantity": { "value": 7.2, "unit": "%" },
+        "effectiveDateTime": "2026-06-01"
+      },
+      {
+        "resourceType": "Observation",
+        "id": "o-2",
+        "category": [{ "coding": [{ "code": "vital-signs" }] }],
+        "code": { "text": "Blood pressure systolic" },
+        "valueQuantity": { "value": 138, "unit": "mmHg" },
+        "effectiveDateTime": "2026-06-01"
+      }
+    ]
+  },
+  "Immunization": {
+    "pf-ana": [
+      {
+        "resourceType": "Immunization",
+        "id": "i-1",
+        "vaccineCode": { "text": "Influenza" },
+        "status": "completed",
+        "occurrenceDateTime": "2025-10-15"
+      }
+    ]
+  },
+  "Appointment": {
+    "pf-ana": [
+      {
+        "resourceType": "Appointment",
+        "id": "ap-1",
+        "status": "booked",
+        "start": "2026-07-20T14:00:00Z",
+        "appointmentType": { "text": "Office visit" }
+      }
+    ]
+  }
+}

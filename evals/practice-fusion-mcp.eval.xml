@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Evaluation set for practice-fusion-mcp (mcp-builder Phase 4).
+
+  Each question is independent, read-only, and requires composing multiple tools
+  (typically search_patients to resolve an id, then a clinical/records read).
+  Answers are single, stable, string-verifiable values.
+
+  The answers are defined against the synthetic dataset in fixtures.json — no
+  real PHI. To run these against a live Practice Fusion Open FHIR sandbox, seed
+  the sandbox with the equivalent records (see evals/README.md).
+-->
+<evaluation>
+  <qa_pair>
+    <question>Search for the patient named Ana Rivera, then count how many of her medications have an active status. How many are active?</question>
+    <answer>2</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Look up the patient Ana Rivera and find her penicillin allergy. What is its criticality?</question>
+    <answer>high</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>For the patient Ana Rivera, how many conditions (problems/diagnoses) are recorded in total?</question>
+    <answer>2</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Find Ana Rivera's laboratory results and report her HbA1c value.</question>
+    <answer>7.2 %</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Which vaccine appears in Ana Rivera's immunization record?</question>
+    <answer>Influenza</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>What is the status of Ana Rivera's appointment?</question>
+    <answer>booked</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Look up the patient Carlos Mendez. What medication is he actively taking?</question>
+    <answer>Atorvastatin 40 mg</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Does the patient Carlos Mendez have any recorded allergies or intolerances? Answer yes or no.</question>
+    <answer>no</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Search practitioners for Iván Irizarry. What qualification does he hold?</question>
+    <answer>MD</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Find Ana Rivera's vital signs and report the systolic value of her blood pressure reading.</question>
+    <answer>138</answer>
+  </qa_pair>
+</evaluation>

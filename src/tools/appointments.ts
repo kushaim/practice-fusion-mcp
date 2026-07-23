@@ -25,10 +25,7 @@ export function registerAppointmentTools(server: McpServer, { client, audit }: T
           .string()
           .optional()
           .describe("Appointment status, e.g. booked, arrived, fulfilled, noshow, cancelled"),
-        date: z
-          .string()
-          .optional()
-          .describe("FHIR date filter, e.g. ge2026-07-01 or le2026-07-31"),
+        date: z.string().optional().describe("FHIR date filter, e.g. ge2026-07-01 or le2026-07-31"),
         limit: limitParam,
       },
       outputSchema: listOutputSchema(appointmentShape),

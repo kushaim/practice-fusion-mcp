@@ -44,7 +44,12 @@ export function registerRecordTools(server: McpServer, { client, audit }: ToolDe
         return paged(r.map(shapeEncounter), limit);
       } catch (e) {
         const msg = e instanceof Error ? e.message : String(e);
-        audit.record({ tool: "practicefusion_get_encounters", params, outcome: "error", error: msg });
+        audit.record({
+          tool: "practicefusion_get_encounters",
+          params,
+          outcome: "error",
+          error: msg,
+        });
         return errorResult(msg, "Verify patientId is a valid FHIR Patient id.");
       }
     },
@@ -69,7 +74,12 @@ export function registerRecordTools(server: McpServer, { client, audit }: ToolDe
         return paged(r.map(shapeDocumentReference), limit);
       } catch (e) {
         const msg = e instanceof Error ? e.message : String(e);
-        audit.record({ tool: "practicefusion_get_documents", params, outcome: "error", error: msg });
+        audit.record({
+          tool: "practicefusion_get_documents",
+          params,
+          outcome: "error",
+          error: msg,
+        });
         return errorResult(msg, "Verify patientId is a valid FHIR Patient id.");
       }
     },

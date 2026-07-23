@@ -45,7 +45,11 @@ describe("record tools", () => {
       },
     ]);
     const res = await handlers.get("practicefusion_get_documents")!({ patientId: "p1" });
-    expect(client.search).toHaveBeenCalledWith("DocumentReference", { patient: "p1" }, { limit: 50 });
+    expect(client.search).toHaveBeenCalledWith(
+      "DocumentReference",
+      { patient: "p1" },
+      { limit: 50 },
+    );
     expect(res.structuredContent.results[0].type).toBe("Progress note");
     expect(res.structuredContent.results[0].description).toBe("Follow-up visit note");
   });
